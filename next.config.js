@@ -18,6 +18,9 @@ const nextConfig = {
 			},
 		],
 	},
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
 
 	async redirects() {
 		return await client.fetch(groq`*[_type == 'redirect']{

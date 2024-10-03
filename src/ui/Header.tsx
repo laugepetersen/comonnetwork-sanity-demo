@@ -7,13 +7,12 @@ import { urlFor } from '@/lib/sanity/urlFor'
 
 export default async function Header() {
 	const siteSettings = await getSite()
-	console.log('logo', siteSettings?.logo)
 
 	return (
 		<div className="sticky left-0 top-0 z-50 w-full bg-[#141825]/80 py-2.5 backdrop-blur-sm">
 			<div className="container">
 				<div className="flex items-center justify-between">
-					{siteSettings.logo !== undefined && (
+					{siteSettings.logo && (
 						<Img image={siteSettings.logo as Sanity.Image} className="-mt-2" />
 					)}
 					<div className="flex items-center gap-x-5">
