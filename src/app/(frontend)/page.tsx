@@ -4,6 +4,8 @@ import Modules from '@/ui/modules'
 import processMetadata from '@/lib/processMetadata'
 import * as Sanity from '@/types/sanity'
 
+export const revalidate = 60 // invalidate every hour
+
 export default async function Page() {
 	const page = await getPage()
 	return <Modules modules={page.modules} />
