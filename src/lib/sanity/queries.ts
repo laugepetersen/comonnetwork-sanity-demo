@@ -29,12 +29,6 @@ export async function get404Page() {
 	)
 	const _404 = await fetchSanity(_404_PAGE_QUERY, { tags: ['page'] })
 
-	if (!_404) {
-		throw new Error(
-			"Missing 'page' document with metadata.slug '404' in Sanity Studio",
-		)
-	}
-
 	return _404
 }
 
