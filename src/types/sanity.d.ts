@@ -90,16 +90,19 @@ export type Site = {
 	_updatedAt: string
 	_rev: string
 	title?: string
-	logo?: {
-		asset?: {
-			_ref: string
-			_type: 'reference'
-			_weak?: boolean
-			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+	siteLogo?: {
+		logo?: {
+			asset?: {
+				_ref: string
+				_type: 'reference'
+				_weak?: boolean
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+			}
+			hotspot?: SanityImageHotspot
+			crop?: SanityImageCrop
+			_type: 'image'
 		}
-		hotspot?: SanityImageHotspot
-		crop?: SanityImageCrop
-		_type: 'image'
+		size?: number
 	}
 	Favicon?: {
 		asset?: {
@@ -142,6 +145,7 @@ export type SampleModule = {
 export type CasinoListItem = {
 	_type: 'casino-list-item'
 	title?: string
+	stars?: number
 	logo?: {
 		asset?: {
 			_ref: string
@@ -269,3 +273,46 @@ export type AllSanitySchemaTypes =
 	| Slug
 	| Code
 export declare const internalGroqTypeReferenceTo: unique symbol
+// Source: ../src/lib/sanity/queries.ts
+// Variable: INDEX_PAGE_QUERY
+// Query: *[_type == 'page' && metadata.slug.current == 'index'][0]{	...,	metadata {		...,		'ogimage': image.asset->url + '?w=1200',	}}
+export type INDEX_PAGE_QUERYResult = {
+	_id: string
+	_type: 'page'
+	_createdAt: string
+	_updatedAt: string
+	_rev: string
+	title?: string
+	modules?: Array<
+		{
+			_key: string
+		} & CasinoModule
+	>
+	metadata: {
+		_type: 'metadata'
+		slug?: Slug
+		title?: string
+		description?: string
+		image?: {
+			asset?: {
+				_ref: string
+				_type: 'reference'
+				_weak?: boolean
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+			}
+			hotspot?: SanityImageHotspot
+			crop?: SanityImageCrop
+			_type: 'image'
+		}
+		noIndex?: boolean
+		ogimage: string | null
+	} | null
+} | null
+
+// Query TypeMap
+import '@sanity/client'
+declare module '@sanity/client' {
+	interface SanityQueries {
+		"*[_type == 'page' && metadata.slug.current == 'index'][0]{\n\t...,\n\tmetadata {\n\t\t...,\n\t\t'ogimage': image.asset->url + '?w=1200',\n\t}\n}": INDEX_PAGE_QUERYResult
+	}
+}

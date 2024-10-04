@@ -1,29 +1,56 @@
 import { fetchSanity, groq } from './fetch'
 import * as Sanity from '@/types/sanity'
+import { defineQuery } from 'next-sanity'
 
-export const linkQuery = groq`
-	...,
-	internal->{ _type, title, metadata }
-`
+export async function getIndexPage() {
+	const INDEX_PAGE_QUERY =
+		defineQuery(`*[_type == 'page' && metadata.slug.current == 'index'][0]{
+		...,
+		metadata {
+			...,
+			'ogimage': image.asset->url + '?w=1200',
+		}
+	}`)
 
-const navigationQuery = groq`
-	title,
-	items[]{
-		${linkQuery},
-		link{ ${linkQuery} },
-		links[]{ ${linkQuery} }
+	const page = await fetchSanity(INDEX_PAGE_QUERY, { tags: ['page'] })
+
+	if (!page) {
+		throw new Error(
+			"Missing 'page' document with metadata.slug 'index' in Sanity Studio",
+		)
 	}
-`
 
-export const ctaQuery = groq`
-	...,
-	link{ ${linkQuery} }
-`
+	return page
+}
 
-export async function getSite(): Promise<Sanity.Site> {
-	const site = await fetchSanity<Sanity.Site>(
+export async function get404Page() {
+	const _404_PAGE_QUERY = defineQuery(
+		`*[_type == 'page' && metadata.slug.current == '404'][0]`,
+	)
+	const _404 = await fetchSanity(_404_PAGE_QUERY, { tags: ['page'] })
+
+	if (!_404) {
+		throw new Error(
+			"Missing 'page' document with metadata.slug '404' in Sanity Studio",
+		)
+	}
+
+	return _404
+}
+
+export async function getSite() {
+	const site = await fetchSanity(
 		groq`
-			*[_type == 'site'][0]
+			*[_type == 'site'][0] {
+				title,
+				siteLogo {
+                  size,
+                  logo {
+                    ...
+                      asset->
+                  },
+                }
+			}
 		`,
 		{ tags: ['site'] },
 	)
@@ -32,42 +59,3 @@ export async function getSite(): Promise<Sanity.Site> {
 
 	return site
 }
-
-export const modulesQuery = groq`
-	...,
-	ctas[]{
-		...,
-		link{ ${linkQuery} }
-	},
-	_type == 'blog-list' => { filteredCategory-> },
-	_type == 'breadcrumbs' => { crumbs[]{ ${linkQuery} } },
-	_type == 'creative-module' => {
-		modules[]{
-			...,
-			subModules[]{
-				...,
-				ctas[]{ ${ctaQuery} }
-			}
-		}
-	},
-	_type == 'hero' => { reputation-> },
-	_type == 'hero.saas' => { reputation-> },
-	_type == 'hero.split' => { reputation-> },
-	_type == 'logo-list' => { logos[]-> },
-	_type == 'pricing-list' => {
-		tiers[]->{
-			...,
-			ctas[]{ ${ctaQuery} }
-		}
-	},
-	_type == 'richtext-module' => {
-		'headings': select(
-			tableOfContents => content[style in ['h2', 'h3', 'h4', 'h5', 'h6']]{
-				style,
-				'text': pt::text(@)
-			}
-		),
-	},
-	_type == 'testimonial.featured' => { testimonial-> },
-	_type == 'testimonial-list' => { testimonials[]-> },
-`

@@ -1,11 +1,19 @@
 // import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
-import Header from '@/ui/Header'
-import Footer from '@/ui/Footer'
+import Header from '@/ui/molecules/Header'
+import Footer from '@/ui/molecules/Footer'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import VisualEditingControls from '@/ui/VisualEditingControls'
 import '@/styles/app.css'
+import localFont from 'next/font/local'
+import { cn } from '@/lib/utils'
+
+const ClashGrotest = localFont({
+	src: '../../fonts/ClashGrotesk-Variable.woff2',
+	display: 'swap',
+	variable: '--font-title',
+})
 
 export default async function RootLayout({
 	children,
@@ -16,7 +24,7 @@ export default async function RootLayout({
 		<html lang="en">
 			{/* <GoogleTagManager gtmId='' /> */}
 
-			<body className="bg-[#141825] text-white">
+			<body className={cn('bg-[#222B40] text-white', ClashGrotest.className)}>
 				<Header />
 				<main id="main-content" tabIndex={-1} className="min-h-screen">
 					{children}

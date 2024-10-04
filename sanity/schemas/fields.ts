@@ -50,16 +50,31 @@ export const casinoListItemField = defineType({
 			title: 'Casino Name',
 			name: 'title',
 			type: 'string',
+			validation: (rule) => rule.required(),
+		}),
+		defineField({
+			title: 'Stars',
+			name: 'stars',
+			type: 'number',
+			validation: (rule) =>
+				rule
+					.required()
+					.min(1)
+					.max(5)
+					.warning('Needs to be between 1-5')
+					.precision(1),
 		}),
 		defineField({
 			title: 'Casino Logo',
 			name: 'logo',
 			type: 'image',
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			title: 'Affiliate URL',
 			name: 'url',
 			type: 'url',
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			title: 'Highlights',
@@ -72,6 +87,7 @@ export const casinoListItemField = defineType({
 			title: 'Offer',
 			name: 'offer',
 			type: 'string',
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			title: 'Terms',

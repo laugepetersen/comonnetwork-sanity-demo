@@ -5301,7 +5301,7 @@ groq-js@^1.13.0:
   dependencies:
     debug "^4.3.4"
 
-groq@3.57.2, groq@^3.54.0, groq@^3.57.1:
+groq@3.57.2, groq@^3.54.0:
   version "3.57.2"
   resolved "https://registry.yarnpkg.com/groq/-/groq-3.57.2.tgz#a1eb3cdce468e8bcca29989e34a0184a8c3ccbbe"
   integrity sha512-P+5frH+jXlQzcQ6hqCe6u/cLqOVqn0G91V/DfqWbKhFC9ABtiQneQOx1nJPweaErE0PpipuNm49WCCB16p5PBg==
@@ -5310,6 +5310,11 @@ groq@^2.29.3:
   version "2.33.2"
   resolved "https://registry.yarnpkg.com/groq/-/groq-2.33.2.tgz#3a85c85a1e43e79bba77f171f23997f541d61010"
   integrity sha512-5pf4c91JESCS28IJCgolJq/WBw4Xvf2m8FgZVUlrCig17I+qERosALAHLyyutXu403EYnyCD3DdCLaPb3aGneA==
+
+groq@^3.59.0:
+  version "3.59.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-3.59.0.tgz#0cfb271a562d04e4d93bcf7918e28ec073ea9242"
+  integrity sha512-gbBadd+JALUNORwnXAebFIj52DEg+tiPwAMC6D+7egGQxiDpTOvnsm4IOBOfH2ySTvaXreKL4RIuKNebe+ZxsA==
 
 gunzip-maybe@^1.4.1:
   version "1.4.2"

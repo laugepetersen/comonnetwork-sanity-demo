@@ -1,19 +1,23 @@
 import { getSite } from '@/lib/sanity/queries'
 import Link from 'next/link'
-import Img from './Img'
+import Img from '../atoms/Img'
 import * as Sanity from '@sanity/types'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/urlFor'
 
 export default async function Header() {
-	const siteSettings = await getSite()
+	const { siteLogo, title } = await getSite()
 
 	return (
-		<div className="sticky left-0 top-0 z-50 w-full bg-[#141825]/80 py-2.5 backdrop-blur-sm">
+		<div className="mb-4 w-full border-b border-b-white/5 py-2.5 backdrop-blur-sm">
 			<div className="container">
 				<div className="flex items-center justify-between">
-					{siteSettings.logo && (
-						<Img image={siteSettings.logo as Sanity.Image} className="-mt-2" />
+					{siteLogo && (
+						<Img
+							image={siteLogo.logo as Sanity.Image}
+							height={siteLogo.size ? 40 * siteLogo.size : 40}
+							style={{ height: `calc(40px * 0.3)` }}
+						/>
 					)}
 					<div className="flex items-center gap-x-5">
 						<div className="flex flex-col items-center opacity-80">

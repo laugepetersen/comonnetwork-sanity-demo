@@ -1,10 +1,9 @@
 import client from '@/lib/sanity/client'
 import { fetchSanity, groq } from '@/lib/sanity/fetch'
-import { modulesQuery } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
-import Modules from '@/ui/modules'
 import processMetadata from '@/lib/processMetadata'
 import * as Sanity from '@/types/sanity'
+import Modules from '@/ui/molecules/modules'
 
 export default async function Page({ params }: Props) {
 	const page = await getPage(params)
@@ -38,7 +37,6 @@ async function getPage(params: Props['params']) {
 			!(metadata.slug.current in ['index', '404', 'blog/*'])
 		][0]{
 			...,
-			modules[]{ ${modulesQuery} },
 			metadata {
 				...,
 				'ogimage': image.asset->url + '?w=1200'
@@ -46,7 +44,7 @@ async function getPage(params: Props['params']) {
 		}`,
 		{
 			params: { slug: params.slug?.join('/') },
-			tags: ['pages'],
+			tags: ['page'],
 		},
 	)
 }

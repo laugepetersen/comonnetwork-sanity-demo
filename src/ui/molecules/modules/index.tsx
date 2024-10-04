@@ -1,5 +1,5 @@
 import * as Sanity from '@/types/sanity'
-import CasinoModule from './CasinoModule'
+import CasinoList from './CasinoList'
 
 interface Module {
 	_key: string
@@ -12,7 +12,7 @@ export default function Modules({ modules }: { modules?: Module[] }) {
 			{modules?.map((module) => {
 				switch (module._type) {
 					case 'casino-module':
-						return <CasinoModule key={module._key} module={module} />
+						return <CasinoList key={module._key} module={module} />
 					default:
 						return (
 							<div key={module._key}>

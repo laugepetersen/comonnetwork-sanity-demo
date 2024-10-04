@@ -14,21 +14,31 @@ export const siteType = defineType({
 		defineField({
 			name: 'title',
 			type: 'string',
-			group: 'general',
 			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
-			name: 'logo',
-			type: 'image',
-			group: 'general',
-			options: {
-				metadata: ['lqip'],
-			},
+			name: 'siteLogo',
+			type: 'object',
+			fields: [
+				defineField({
+					name: 'logo',
+					type: 'image',
+					options: {
+						metadata: ['lqip'],
+					},
+				}),
+				defineField({
+					name: 'size',
+					description: 'Size in percentage (%)',
+					type: 'number',
+					initialValue: 100,
+					validation: (rule) => rule.required().min(1).max(100).integer(),
+				}),
+			],
 		}),
 		defineField({
 			name: 'Favicon',
 			type: 'image',
-			group: 'general',
 		}),
 	],
 	preview: {
