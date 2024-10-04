@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
 			revalidated: true,
 			now: Date.now(),
 			body,
+			request: req.json(),
 		})
 	} catch (error: any) {
 		console.error(error)
