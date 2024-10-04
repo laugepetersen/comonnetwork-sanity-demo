@@ -1,16 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
-import { parseBody } from 'next-sanity/webhook'
+// import { parseBody } from 'next-sanity/webhook'
+import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
 
 export async function POST(req: NextRequest) {
 	try {
-		const { body, isValidSignature } = await parseBody<{
-			_type: string
-			slug?: string | undefined
-		}>(req, process.env.SANITY_HOOK_SECRET)
-
-		if (!isValidSignature) {
-			return new Response('Invalid Signature', { status: 401 })
+		const signature = req.headers.get(SIGNATURE_HEADER_NAME)
+		if (!signature) {
+			return NextResponse.json({
+				status: 401,
+				success: false,
+				message: 'Signature is null',
+			})
+		}
+		const body = await req.json()
+		if (
+			!(await isValidSignature(
+				body,
+				signature,
+				process.env.SANITY_HOOK_SECRET!,
+			))
+		) {
+			return NextResponse.json({
+				status: 401,
+				success: false,
+				message: 'Invalid signature',
+			})
 		}
 
 		if (!body?._type) {
