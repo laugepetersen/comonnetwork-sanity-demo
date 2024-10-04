@@ -36,13 +36,14 @@ export async function POST(req: NextRequest) {
 			})
 		}
 
+		console.log('LAUGE', body)
+
 		revalidateTag(body._type)
 		return NextResponse.json({
 			status: 200,
 			revalidated: true,
 			now: Date.now(),
 			body,
-			request: req.json(),
 		})
 	} catch (error: any) {
 		console.error(error)
